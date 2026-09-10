@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>WhiteMoon 360 — Landing</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="assets/config.js"></script>
+<style>
+  :root{
+    --bg:#0b0b12; --card:#14141e; --p:#7c4dff; --p2:#9d70ff; --g:#00d4aa;
+    --text:#f0f0f5; --muted:#8b8ba0; --border:rgba(255,255,255,.1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);font-weight:300;line-height:1.5;min-height:100vh}
+  .wrap{max-width:560px;margin:0 auto;padding:64px 22px 48px}
+  .brand{font-size:13px;letter-spacing:.2em;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:38px}
+  .brand b{color:var(--text)}
+  h1{font-size:clamp(30px,7vw,46px);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:14px}
+  .sub{font-size:17px;color:var(--muted);margin-bottom:36px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:26px 24px}
+  label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px}
+  input,select{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:inherit;font-size:15px;margin-bottom:16px}
+  input:focus,select:focus{outline:none;border-color:var(--p2)}
+  button{width:100%;background:var(--p);color:#fff;border:none;border-radius:10px;padding:15px;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)}
+  button:disabled{opacity:.6;cursor:default}
+  .ok{text-align:center;padding:20px 0}
+  .ok .check{width:58px;height:58px;border-radius:50%;background:rgba(0,212,170,.12);border:1px solid var(--g);color:var(--g);display:grid;place-items:center;font-size:28px;margin:0 auto 16px}
+  .ok h3{font-size:20px;font-weight:600;margin-bottom:6px}
+  .ok p{color:var(--muted)}
+  .foot{margin-top:26px;text-align:center;font-size:13px;color:var(--muted)}
+  .foot a{color:var(--p2);text-decoration:none}
+  .err{color:#ff6b81;font-size:13px;margin-bottom:12px;min-height:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><b id="marca">Negocio</b> · <span id="sector">Servicios</span></div>
+  <h1 id="hero">Tu servicio, atendido de principio a fin</h1>
+  <p class="sub" id="herosub">Déjanos tus datos y te llamamos enseguida.</p>
+
+  <div class="card" id="formCard">
+    <form id="form">
+      <div class="err" id="err"></div>
+      <label>Nombre y apellido</label>
+      <input id="nombre" type="text" autocomplete="name" required>
+      <label>Teléfono</label>
+      <input id="telefono" type="tel" autocomplete="tel" required>
+      <label>¿Qué necesitas?</label>
+      <select id="servicio"></select>
+      <button type="submit" id="btn">Solicitar llamada</button>
+    </form>
+  </div>
+
+  <div class="card ok" id="okCard" hidden>
+    <div class="check">✓</div>
+    <h3>¡Datos recibidos!</h3>
+    <p>Te llamamos enseguida. Gracias.</p>
+  </div>
+
+  <div class="foot">
+    ¿Prefieres escribir? <a id="wa" href="#" target="_blank">WhatsApp</a> · <a id="tel" href="#">Llamar</a>
+  </div>
+</div>
+
+<script>
+  const C = window.WM360_CONFIG || {};
+  const $ = (id)=>document.getElementById(id);
+  // aplicar branding
+  const r = document.documentElement.style;
+  if (C.COLOR_BG) r.setProperty('--bg', C.COLOR_BG);
+  if (C.COLOR_CARD) r.setProperty('--card', C.COLOR_CARD);
+  if (C.COLOR_P) r.setProperty('--p', C.COLOR_P);
+  if (C.COLOR_P2) r.setProperty('--p2', C.COLOR_P2);
+  if (C.COLOR_G) r.setProperty('--g', C.COLOR_G);
+  $('marca').textContent = C.MARCA || 'Negocio';
+  $('sector').textContent = C.SECTOR || 'Servicios';
+  $('hero').textContent = C.HERO_TITULO || $('hero').textContent;
+  $('herosub').textContent = C.HERO_SUB || $('herosub').textContent;
+  (C.SERVICIOS || ['Consulta']).forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; $('servicio').appendChild(o); });
+  $('wa').href = 'https://wa.me/' + (C.WHATSAPP||'');
+  $('tel').href = 'tel:' + (C.TEL||'');
+
+  $('form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    $('err').textContent='';
+    const nombre = $('nombre').value.trim();
+    const telefono = $('telefono').value.trim();
+    const servicio = $('servicio').value;
+    if(!nombre || !telefono){ $('err').textContent='Pon tu nombre y teléfono.'; return; }
+    $('btn').disabled = true; $('btn').textContent = 'Enviando…';
+    try{
+      const res = await fetch(`${C.SUPABASE_URL}/functions/v1/${C.NOTIFY_FN}`, {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+C.SUPABASE_ANON_KEY, 'apikey':C.SUPABASE_ANON_KEY },
+        body: JSON.stringify({ cliente_id:C.CLIENTE_ID, nombre, telefono, servicio })
+      });
+      if(!res.ok) throw new Error('fallo');
+      $('formCard').hidden = true; $('okCard').hidden = false;
+    }catch(_){
+      $('err').textContent='No se pudo enviar. Inténtalo otra vez o escríbenos por WhatsApp.';
+      $('btn').disabled=false; $('btn').textContent='Solicitar llamada';
+    }
+  });
+</script>
+</body>
+</html>

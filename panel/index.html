@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>WhiteMoon 360 — Panel</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="../assets/config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --bg:#0b0b12; --bg2:#101019; --card:#14141e; --p:#7c4dff; --p2:#9d70ff; --g:#00d4aa; --gold:#f5c842;
+    --text:#f0f0f5; --muted:#8b8ba0; --border:rgba(255,255,255,.1); --red:#ff6b81;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--text);font-weight:300;line-height:1.45;min-height:100vh}
+  a{color:var(--p2)}
+  .muted{color:var(--muted)}
+  /* login */
+  .login{max-width:380px;margin:9vh auto;padding:0 22px}
+  .login .box{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:30px 26px}
+  .brand{font-size:12px;letter-spacing:.2em;font-weight:600;color:var(--muted);text-transform:uppercase;margin-bottom:22px}
+  .brand b{color:var(--text)}
+  h2{font-size:22px;font-weight:700;margin-bottom:18px}
+  label{display:block;font-size:12.5px;color:var(--muted);margin:0 0 6px}
+  input,select,textarea{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:12px 13px;color:var(--text);font-family:inherit;font-size:15px;margin-bottom:14px}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--p2)}
+  textarea{resize:vertical;min-height:64px}
+  button{background:var(--p);color:#fff;border:none;border-radius:10px;padding:12px 18px;font-family:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:transform .15s,opacity .15s}
+  button:hover{transform:translateY(-1px)}
+  button:disabled{opacity:.55;cursor:default}
+  button.ghost{background:transparent;border:1px solid var(--border);color:var(--text)}
+  button.sm{padding:7px 12px;font-size:13px}
+  .err{color:var(--red);font-size:13px;min-height:16px;margin-bottom:10px}
+  /* app shell */
+  .topbar{display:flex;justify-content:space-between;align-items:center;padding:16px 22px;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:5}
+  .topbar .l{font-weight:600}
+  .topbar .l small{display:block;font-weight:300;color:var(--muted);font-size:12px;letter-spacing:.04em}
+  .rolechip{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--p2);border:1px solid var(--border);border-radius:100px;padding:4px 10px;margin-left:10px}
+  .main{max-width:1080px;margin:0 auto;padding:22px}
+  .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+  .tab{padding:9px 16px;border-radius:100px;border:1px solid var(--border);color:var(--muted);cursor:pointer;font-size:14px}
+  .tab.on{background:rgba(124,77,255,.14);color:var(--text);border-color:rgba(124,77,255,.4)}
+  /* pipeline */
+  .cols{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .col{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:12px;min-height:120px}
+  .col h3{font-size:13px;font-weight:600;letter-spacing:.03em;margin-bottom:10px;display:flex;justify-content:space-between}
+  .col h3 span{color:var(--muted);font-weight:300}
+  .lead{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 12px;margin-bottom:9px}
+  .lead .n{font-weight:600;font-size:14px}
+  .lead .meta{font-size:12.5px;color:var(--muted);margin:3px 0 8px}
+  .lead .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .lead .acts button{padding:5px 9px;font-size:12px}
+  .pill{display:inline-block;font-size:11px;color:var(--g);border:1px solid rgba(0,212,170,.3);border-radius:100px;padding:2px 8px}
+  /* kpis */
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .kpi{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px}
+  .kpi .big{font-size:34px;font-weight:700;letter-spacing:-.02em}
+  .kpi .lbl{font-size:12.5px;color:var(--muted);margin-top:2px}
+  .kpi.g .big{color:var(--g)} .kpi.p .big{color:var(--p2)} .kpi.gold .big{color:var(--gold)}
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}
+  th{color:var(--muted);font-weight:600;font-size:12px;letter-spacing:.03em}
+  .rowform{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:18px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px}
+  @media(max-width:820px){ .cols{grid-template-columns:1fr 1fr} .grid2{grid-template-columns:1fr} }
+  @media(max-width:520px){ .cols{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN ===== -->
+<div class="login" id="loginView">
+  <div class="brand"><b id="lm">WhiteMoon 360</b></div>
+  <div class="box">
+    <h2>Acceso al panel</h2>
+    <div class="err" id="loginErr"></div>
+    <label>Email</label>
+    <input id="email" type="email" autocomplete="username">
+    <label>Contraseña</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <button id="loginBtn" style="width:100%">Entrar</button>
+  </div>
+</div>
+
+<!-- ===== APP ===== -->
+<div id="appView" hidden>
+  <div class="topbar">
+    <div class="l"><span id="marca">—</span><span class="rolechip" id="rolechip">—</span><small id="quien">—</small></div>
+    <button class="ghost sm" id="logoutBtn">Salir</button>
+  </div>
+  <div class="main">
+    <div class="tabs" id="tabs"></div>
+    <div id="content"></div>
+  </div>
+</div>
+
+<script>
+const C = window.WM360_CONFIG || {};
+const $ = (id)=>document.getElementById(id);
+// branding
+const rs = document.documentElement.style;
+['COLOR_BG:--bg','COLOR_CARD:--card','COLOR_P:--p','COLOR_P2:--p2','COLOR_G:--g'].forEach(pair=>{
+  const [k,v]=pair.split(':'); if(C[k]) rs.setProperty(v, C[k]);
+});
+$('lm').textContent = (C.MARCA||'WhiteMoon 360');
+
+const sb = window.supabase.createClient(C.SUPABASE_URL, C.SUPABASE_ANON_KEY);
+let ME = null, CLIENTE = null;
+
+const ESTADOS = [['nuevo','Nuevo'],['contactado','Contactado'],['presupuesto','Presupuesto'],['cerrado','Cerrado']];
+const esc = (s)=> (s==null?'':String(s)).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+// ---------- AUTH ----------
+async function init(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(session) return afterLogin();
+  $('loginView').hidden = false;
+}
+$('loginBtn').addEventListener('click', doLogin);
+$('password').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+async function doLogin(){
+  $('loginErr').textContent='';
+  const email=$('email').value.trim(), password=$('password').value;
+  if(!email||!password){ $('loginErr').textContent='Pon email y contraseña.'; return; }
+  $('loginBtn').disabled=true; $('loginBtn').textContent='Entrando…';
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  $('loginBtn').disabled=false; $('loginBtn').textContent='Entrar';
+  if(error){ $('loginErr').textContent='Email o contraseña incorrectos.'; return; }
+  afterLogin();
+}
+$('logoutBtn').addEventListener('click', async ()=>{ await sb.auth.signOut(); location.reload(); });
+
+async function afterLogin(){
+  const { data:{ user } } = await sb.auth.getUser();
+  const { data:me, error } = await sb.from('wm360_usuarios').select('*').eq('id', user.id).maybeSingle();
+  if(error || !me){ $('loginView').hidden=false; $('loginErr').textContent='Tu usuario no está dado de alta en ningún negocio.'; await sb.auth.signOut(); return; }
+  ME = me;
+  const { data:cli } = await sb.from('wm360_clientes').select('*').eq('cliente_id', me.cliente_id).maybeSingle();
+  CLIENTE = cli || {};
+  $('loginView').hidden = true; $('appView').hidden = false;
+  $('marca').textContent = CLIENTE.negocio_nombre || C.MARCA || 'Negocio';
+  $('rolechip').textContent = me.rol;
+  $('quien').textContent = (me.nombre||'') ;
+  buildTabs();
+}
+
+// ---------- TABS ----------
+function buildTabs(){
+  const tabs = ME.rol==='gerente'
+    ? [['pipeline','Pipeline'],['servicios','Servicios'],['kpis','KPIs']]
+    : [['mis','Mis trabajos']];
+  $('tabs').innerHTML = tabs.map((t,i)=>`<div class="tab${i===0?' on':''}" data-t="${t[0]}">${t[1]}</div>`).join('');
+  $('tabs').querySelectorAll('.tab').forEach(el=>el.addEventListener('click',()=>{
+    $('tabs').querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));
+    el.classList.add('on'); route(el.dataset.t);
+  }));
+  route(tabs[0][0]);
+}
+function route(t){
+  if(t==='pipeline') return viewPipeline();
+  if(t==='servicios') return viewServicios();
+  if(t==='kpis') return viewKpis();
+  if(t==='mis') return viewMisTrabajos();
+}
+
+// ---------- PIPELINE (gerente) ----------
+async function viewPipeline(){
+  $('content').innerHTML = '<p class="muted">Cargando…</p>';
+  const { data:leads } = await sb.from('wm360_leads').select('*').order('created_at',{ascending:false});
+  const byEstado = {}; ESTADOS.forEach(([k])=>byEstado[k]=[]);
+  (leads||[]).forEach(l=> (byEstado[l.estado]||byEstado.nuevo).push(l));
+  $('content').innerHTML = `<div class="cols">${ESTADOS.map(([k,lbl])=>`
+    <div class="col"><h3>${lbl} <span>${byEstado[k].length}</span></h3>
+      ${byEstado[k].map(l=>leadCard(l)).join('') || '<p class="muted" style="font-size:12.5px">—</p>'}
+    </div>`).join('')}</div>`;
+  $('content').querySelectorAll('[data-mv]').forEach(b=>b.addEventListener('click',()=>moveLead(b.dataset.id,b.dataset.mv)));
+  $('content').querySelectorAll('[data-rev]').forEach(b=>b.addEventListener('click',()=>pedirResena(b.dataset.rev)));
+}
+function leadCard(l){
+  const idx = ESTADOS.findIndex(e=>e[0]===l.estado);
+  const prev = idx>0?ESTADOS[idx-1]:null, next = idx<ESTADOS.length-1?ESTADOS[idx+1]:null;
+  const cerrado = l.estado==='cerrado';
+  return `<div class="lead">
+    <div class="n">${esc(l.nombre)}</div>
+    <div class="meta">${esc(l.telefono)}${l.servicio?' · '+esc(l.servicio):''}${l.resena_pedida?' · <span class=pill>reseña pedida</span>':''}</div>
+    <div class="acts">
+      ${prev?`<button class="ghost" data-id="${l.id}" data-mv="${prev[0]}">← ${prev[1]}</button>`:''}
+      ${next?`<button data-id="${l.id}" data-mv="${next[0]}">${next[1]} →</button>`:''}
+      ${cerrado && !l.resena_pedida?`<button class="ghost" data-rev="${l.id}" style="border-color:rgba(0,212,170,.4);color:var(--g)">Pedir reseña</button>`:''}
+    </div></div>`;
+}
+async function moveLead(id, estado){
+  await sb.from('wm360_leads').update({ estado }).eq('id', id);
+  viewPipeline();
+}
+async function pedirResena(id){
+  const { data:l } = await sb.from('wm360_leads').select('*').eq('id',id).maybeSingle();
+  if(!l) return;
+  const txt = encodeURIComponent(`¡Hola ${l.nombre}! Gracias por confiar en ${CLIENTE.negocio_nombre||''}. ¿Nos dejas una reseña? ${CLIENTE.review_link||''}`);
+  const tel = (l.telefono||'').replace(/[^0-9]/g,'');
+  window.open(`https://wa.me/${tel}?text=${txt}`, '_blank');
+  await sb.from('wm360_leads').update({ resena_pedida:true }).eq('id', id);
+  viewPipeline();
+}
+
+// ---------- SERVICIOS (gerente: todos) ----------
+async function viewServicios(){
+  $('content').innerHTML = '<p class="muted">Cargando…</p>';
+  const [{ data:servicios }, { data:tecnicos }] = await Promise.all([
+    sb.from('wm360_servicios').select('*').order('fecha',{ascending:false}),
+    sb.from('wm360_usuarios').select('id,nombre,rol').eq('rol','tecnico')
+  ]);
+  const tmap = {}; (tecnicos||[]).forEach(t=>tmap[t.id]=t.nombre||'Técnico');
+  const opts = (tecnicos||[]).map(t=>`<option value="${t.id}">${esc(t.nombre||'Técnico')}</option>`).join('');
+  $('content').innerHTML = `
+    <div class="rowform">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Nuevo servicio</h3>
+      <div class="grid2">
+        <div><label>Cliente / lugar</label><input id="s_cli"></div>
+        <div><label>Tipo de servicio</label><input id="s_tipo"></div>
+        <div><label>Técnico</label><select id="s_tec"><option value="">— sin asignar —</option>${opts}</select></div>
+        <div><label>Horas</label><input id="s_horas" type="number" step="0.25" min="0"></div>
+        <div><label>Importe (€)</label><input id="s_imp" type="number" step="0.01" min="0"></div>
+        <div><label>Estado</label><select id="s_est"><option value="abierto">Abierto</option><option value="en_curso">En curso</option><option value="completado">Completado</option></select></div>
+      </div>
+      <label>Observaciones</label><textarea id="s_obs"></textarea>
+      <button id="s_add">Añadir servicio</button>
+    </div>
+    <table><thead><tr><th>Fecha</th><th>Cliente</th><th>Servicio</th><th>Técnico</th><th>Horas</th><th>Importe</th><th>Estado</th><th>Observaciones</th></tr></thead>
+    <tbody>${(servicios||[]).map(s=>`<tr>
+      <td>${esc(s.fecha||'')}</td><td>${esc(s.cliente_final||'')}</td><td>${esc(s.tipo_servicio||'')}</td>
+      <td>${esc(tmap[s.tecnico_id]||'—')}</td><td>${s.horas??''}</td><td>${s.importe!=null?Number(s.importe).toFixed(2)+'€':''}</td>
+      <td>${esc(s.estado)}</td><td class="muted">${esc(s.observaciones||'')}</td></tr>`).join('') || '<tr><td colspan=8 class=muted>Sin servicios todavía.</td></tr>'}</tbody></table>`;
+  $('s_add').addEventListener('click', async ()=>{
+    const row = {
+      cliente_id: ME.cliente_id,
+      cliente_final: $('s_cli').value.trim()||null,
+      tipo_servicio: $('s_tipo').value.trim()||null,
+      tecnico_id: $('s_tec').value||null,
+      horas: $('s_horas').value?Number($('s_horas').value):null,
+      importe: $('s_imp').value?Number($('s_imp').value):null,
+      estado: $('s_est').value,
+      observaciones: $('s_obs').value.trim()||null,
+    };
+    const { error } = await sb.from('wm360_servicios').insert(row);
+    if(error){ alert('No se pudo guardar: '+error.message); return; }
+    viewServicios();
+  });
+}
+
+// ---------- KPIs (gerente) ----------
+async function viewKpis(){
+  $('content').innerHTML = '<p class="muted">Cargando…</p>';
+  const [{ data:leads }, { data:servicios }] = await Promise.all([
+    sb.from('wm360_leads').select('estado'),
+    sb.from('wm360_servicios').select('horas,importe')
+  ]);
+  const total=(leads||[]).length, cerrados=(leads||[]).filter(l=>l.estado==='cerrado').length;
+  const tasa = total? Math.round(cerrados/total*100):0;
+  const nserv=(servicios||[]).length;
+  const horas=(servicios||[]).reduce((a,s)=>a+(Number(s.horas)||0),0);
+  const fact=(servicios||[]).reduce((a,s)=>a+(Number(s.importe)||0),0);
+  $('content').innerHTML = `<div class="kpis">
+    <div class="kpi p"><div class="big">${tasa}%</div><div class="lbl">Tasa de cierre (${cerrados}/${total} leads)</div></div>
+    <div class="kpi"><div class="big">${nserv}</div><div class="lbl">Servicios realizados</div></div>
+    <div class="kpi g"><div class="big">${horas.toFixed(1)}</div><div class="lbl">Horas registradas</div></div>
+    <div class="kpi gold"><div class="big">${fact.toFixed(0)}€</div><div class="lbl">Facturación (servicios)</div></div>
+  </div>`;
+}
+
+// ---------- MIS TRABAJOS (técnico) ----------
+async function viewMisTrabajos(){
+  $('content').innerHTML = '<p class="muted">Cargando…</p>';
+  const { data:servicios } = await sb.from('wm360_servicios').select('*').order('fecha',{ascending:false});
+  $('content').innerHTML = `
+    <div class="rowform">
+      <h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Registrar trabajo</h3>
+      <div class="grid2">
+        <div><label>Cliente / lugar</label><input id="t_cli"></div>
+        <div><label>Tipo de trabajo</label><input id="t_tipo"></div>
+        <div><label>Horas</label><input id="t_horas" type="number" step="0.25" min="0"></div>
+        <div><label>Importe (€) <span class="muted">(opcional)</span></label><input id="t_imp" type="number" step="0.01" min="0"></div>
+      </div>
+      <label>Observaciones (justificación de las horas)</label><textarea id="t_obs"></textarea>
+      <button id="t_add">Guardar trabajo</button>
+    </div>
+    <table><thead><tr><th>Fecha</th><th>Cliente</th><th>Trabajo</th><th>Horas</th><th>Observaciones</th></tr></thead>
+    <tbody>${(servicios||[]).map(s=>`<tr>
+      <td>${esc(s.fecha||'')}</td><td>${esc(s.cliente_final||'')}</td><td>${esc(s.tipo_servicio||'')}</td>
+      <td>${s.horas??''}</td><td class="muted">${esc(s.observaciones||'')}</td></tr>`).join('') || '<tr><td colspan=5 class=muted>Aún no has registrado trabajos.</td></tr>'}</tbody></table>`;
+  $('t_add').addEventListener('click', async ()=>{
+    const row = {
+      cliente_id: ME.cliente_id,
+      tecnico_id: ME.id,
+      cliente_final: $('t_cli').value.trim()||null,
+      tipo_servicio: $('t_tipo').value.trim()||null,
+      horas: $('t_horas').value?Number($('t_horas').value):null,
+      importe: $('t_imp').value?Number($('t_imp').value):null,
+      observaciones: $('t_obs').value.trim()||null,
+      estado:'completado',
+    };
+    if(!row.horas){ alert('Pon las horas.'); return; }
+    const { error } = await sb.from('wm360_servicios').insert(row);
+    if(error){ alert('No se pudo guardar: '+error.message); return; }
+    viewMisTrabajos();
+  });
+}
+
+init();
+</script>
+</body>
+</html>
