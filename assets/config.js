@@ -1,11 +1,11 @@
 /* ============================================================
    WHITEMOON 360 — CONFIG (fuente única: la cargan web y panel)
-   Reskin por cliente = cambiar SOLO este archivo + colores.
+   Reskin por cliente = cambiar SOLO este archivo + colores + fotos.
    NO poner aquí NADA secreto: la anon key es pública (la RLS protege).
    Nunca meter service_role ni el x-alta-secret aquí.
    ============================================================ */
 window.WM360_CONFIG = {
-  // --- Conexión (fijo para todos) ---
+  // --- Conexión (fijo) ---
   SUPABASE_URL: "https://mlaqtniujnvfxcvcourm.supabase.co",
   SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1sYXF0bml1am52ZnhjdmNvdXJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc4MzUyMzIsImV4cCI6MjA5MzQxMTIzMn0.Neh7VUS8ADsxf0DPab0JoJyGXOAXnLIaXzXbKzj2BGs",
   CHAT_FN: "wm360-chat",
@@ -18,27 +18,28 @@ window.WM360_CONFIG = {
 
   // --- Contacto / CTA ---
   TEL: "+34600000000",
-  WHATSAPP: "34600000000",           // sin + ni espacios (wa.me)
+  WHATSAPP: "34600000000",
   EMAIL: "hola@limpiezasdemo.es",
 
-  // --- Branding (paleta; se reskina por cliente) ---
-  COLOR_BG:   "#0b0b12",
-  COLOR_BG2:  "#101019",
-  COLOR_CARD: "#14141e",
-  COLOR_P:    "#7c4dff",
-  COLOR_P2:   "#9d70ff",
-  COLOR_G:    "#00d4aa",
+  // --- Branding (acento; se reskina por cliente) ---
+  COLOR_P:  "#6d3bff",
+  COLOR_P2: "#8a5cff",
+  COLOR_G:  "#0aa06e",
 
   // --- Web: hero ---
   HERO_TITULO: "Tu servicio, atendido de principio a fin",
   HERO_SUB: "Presupuesto rápido, trabajo garantizado y un asistente que te atiende 24/7.",
   HERO_CTA: "Hablar con el asistente",
+  IMG_HERO: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=1200&q=80&auto=format&fit=crop",
 
-  // --- Web: servicios (tarjetas) ---
+  // --- Web: servicios (con foto) ---
   SERVICIOS: [
-    { t: "Presupuesto sin compromiso", desc: "Cuéntanos qué necesitas y te damos un presupuesto claro, sin letra pequeña." },
-    { t: "Servicio urgente", desc: "Atendemos imprevistos con rapidez. Disponibilidad amplia y respuesta ágil." },
-    { t: "Mantenimiento periódico", desc: "Planes a medida para que no tengas que preocuparte de nada." },
+    { t: "Presupuesto sin compromiso", desc: "Cuéntanos qué necesitas y te damos un presupuesto claro, sin letra pequeña.",
+      img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&q=80&auto=format&fit=crop" },
+    { t: "Servicio urgente", desc: "Atendemos imprevistos con rapidez. Disponibilidad amplia y respuesta ágil.",
+      img: "https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?w=800&q=80&auto=format&fit=crop" },
+    { t: "Mantenimiento periódico", desc: "Planes a medida para que no tengas que preocuparte de nada.",
+      img: "https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=800&q=80&auto=format&fit=crop" },
   ],
 
   // --- Web: por qué nosotros ---
@@ -51,6 +52,7 @@ window.WM360_CONFIG = {
   // --- Web: sobre ---
   ABOUT_TIT: "Cerca de ti, cuando lo necesitas",
   ABOUT_TXT: "Somos un equipo local especializado. Nos tomamos en serio cada trabajo y cuidamos los detalles, porque tu confianza es lo que nos hace crecer.",
+  IMG_ABOUT: "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=1000&q=80&auto=format&fit=crop",
 
   // --- Agente IA ---
   AGENTE_NOMBRE: "Asistente",
