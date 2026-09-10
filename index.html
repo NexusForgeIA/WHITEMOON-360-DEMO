@@ -5,124 +5,190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
 <title>WhiteMoon 360 — Web</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap" rel="stylesheet">
-<script src="assets/config.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<script src="assets/config.js?v=4"></script>
 <style>
   :root{
-    --bg:#f5f4fa; --surface:#ffffff; --ink:#16121f; --muted:#6a6580; --border:#eceaf3;
-    --p:#6d3bff; --p2:#8a5cff; --g:#0aa06e; --tint:#f0ecff;
+    --bg:#ffffff; --bg2:#f6f4fc; --ink:#140f22; --muted:#6a6580; --border:#ece9f5;
+    --p:#7c4dff; --p2:#9d70ff; --pd:#5a2fd0; --g:#0aa06e; --tint:#f1ecff;
+    --shadow:0 14px 40px rgba(20,15,34,.08);
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:'Sora',system-ui,sans-serif;background:var(--bg);color:var(--ink);font-weight:300;line-height:1.55;overflow-x:hidden}
   .serif{font-family:'Fraunces',Georgia,serif}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
   a{color:inherit;text-decoration:none}
+  section{scroll-margin-top:82px}
   .photo{background-size:cover;background-position:center;background-repeat:no-repeat}
+  h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;letter-spacing:-.01em;line-height:1.08}
 
-  /* nav */
-  nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0}
-  .brand{font-weight:800;font-size:19px;letter-spacing:-.01em}
-  .brand .d{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--p);margin-right:8px;vertical-align:middle}
-  .nav-cta{background:var(--p);color:#fff;padding:11px 20px;border-radius:100px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 6px 18px rgba(109,59,255,.28)}
-  .nav-cta:hover{transform:translateY(-1px)}
+  /* NAV */
+  .nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+  .nav .in{display:flex;align-items:center;gap:20px;padding:12px 0}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Sora';font-weight:800;font-size:17px;letter-spacing:-.01em}
+  .logo img{height:30px;width:auto;display:block}
+  .menu{display:flex;gap:26px;margin-left:auto;font-family:'Sora'}
+  .menu a{font-size:14.5px;color:var(--muted);font-weight:500;transition:color .15s}
+  .menu a:hover{color:var(--ink)}
+  .nav .cta{background:var(--p);color:#fff;padding:10px 18px;border-radius:100px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'Sora';box-shadow:0 6px 16px rgba(124,77,255,.28);transition:transform .15s}
+  .nav .cta:hover{transform:translateY(-1px)}
+  .burger{display:none;margin-left:auto;background:none;border:none;cursor:pointer;font-size:24px;color:var(--ink)}
 
-  /* hero */
-  .hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;padding:40px 0 64px}
-  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--p);font-weight:600;background:var(--tint);border-radius:100px;padding:7px 15px;margin-bottom:22px}
-  h1{font-size:clamp(38px,5.6vw,62px);font-weight:700;line-height:1.03;letter-spacing:-.025em}
-  .hero .sub{font-size:clamp(16px,2vw,19px);color:var(--muted);margin-top:20px;max-width:520px}
+  /* HERO */
+  .hero{display:grid;grid-template-columns:1.06fr .94fr;gap:48px;align-items:center;padding:56px 0 60px}
+  .eyebrow{display:inline-block;font-family:'Sora';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--p);font-weight:600;background:var(--tint);border-radius:100px;padding:7px 15px;margin-bottom:22px}
+  h1{font-size:clamp(40px,5.6vw,64px)}
+  .hero .sub{font-size:clamp(16px,2vw,19px);color:var(--muted);margin-top:20px;max-width:540px;font-weight:300}
   .hero .btns{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
-  .btn-p{background:var(--p);color:#fff;padding:15px 28px;border-radius:100px;font-size:16px;font-weight:600;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 10px 26px rgba(109,59,255,.3)}
-  .btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(109,59,255,.42)}
-  .btn-g{background:var(--surface);color:var(--ink);border:1px solid var(--border);padding:15px 24px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;transition:transform .15s}
+  .btn-p{background:var(--p);color:#fff;padding:15px 28px;border-radius:100px;font-size:16px;font-weight:600;font-family:'Sora';border:none;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 10px 26px rgba(124,77,255,.3)}
+  .btn-p:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(124,77,255,.42)}
+  .btn-g{background:#fff;color:var(--ink);border:1px solid var(--border);padding:15px 24px;border-radius:100px;font-size:15px;font-weight:500;font-family:'Sora';cursor:pointer;transition:transform .15s}
   .btn-g:hover{transform:translateY(-2px)}
-  .hero-img{position:relative;border-radius:24px;overflow:hidden;aspect-ratio:4/3.4;box-shadow:0 30px 60px rgba(20,18,31,.14);background-image:linear-gradient(135deg,rgba(109,59,255,.30),rgba(10,160,110,.18))}
-  .hero-badge{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,.92);backdrop-filter:blur(6px);border-radius:14px;padding:12px 16px;box-shadow:0 8px 24px rgba(20,18,31,.14)}
-  .hero-badge b{font-size:15px} .hero-badge span{color:var(--muted);font-size:12.5px}
-  .hero-badge .g{color:var(--g);font-weight:600}
+  .hero-img{position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/3.5;box-shadow:0 34px 64px rgba(20,15,34,.16);background-image:linear-gradient(135deg,rgba(124,77,255,.30),rgba(10,160,110,.16))}
+  .hero-badge{position:absolute;left:18px;bottom:18px;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-radius:14px;padding:12px 16px;box-shadow:0 8px 24px rgba(20,15,34,.16);font-family:'Sora'}
+  .hero-badge b{font-size:14.5px;color:var(--g)} .hero-badge span{color:var(--muted);font-size:12.5px}
 
-  /* trust strip */
-  .trust{display:flex;gap:26px;flex-wrap:wrap;padding:22px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);color:var(--muted);font-size:14px}
+  .trust{display:flex;gap:28px;flex-wrap:wrap;padding:20px 0 4px;color:var(--muted);font-size:14px;font-family:'Sora'}
   .trust b{color:var(--ink)}
 
-  /* sections */
-  section.blk{padding:60px 0}
-  .sec-label{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--p);font-weight:600;margin-bottom:12px}
-  h2{font-size:clamp(28px,4vw,42px);font-weight:700;letter-spacing:-.02em;line-height:1.08}
-  .lead-p{color:var(--muted);font-size:16px;margin-top:10px;max-width:560px}
-  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:36px}
-  .scard{background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:0 12px 30px rgba(20,18,31,.05);transition:transform .25s,box-shadow .25s}
-  .scard:hover{transform:translateY(-6px);box-shadow:0 22px 44px rgba(20,18,31,.1)}
-  .scard .ph{height:172px;background-image:linear-gradient(135deg,rgba(109,59,255,.28),rgba(10,160,110,.16))}
-  .scard .b{padding:22px 22px 26px}
-  .scard h3{font-size:19px;font-weight:600;margin-bottom:8px}
-  .scard p{font-size:14.5px;color:var(--muted)}
+  /* SECTIONS */
+  section.blk{padding:66px 0}
+  .head-c{text-align:center;max-width:640px;margin:0 auto 40px}
+  .sec-label{font-family:'Sora';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--p);font-weight:600;margin-bottom:12px}
+  h2{font-size:clamp(30px,4.2vw,44px)}
+  .lead-p{color:var(--muted);font-size:16.5px;margin-top:12px;font-weight:300}
+
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .scard{background:#fff;border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+  .scard:hover{transform:translateY(-6px);box-shadow:0 26px 50px rgba(20,15,34,.12)}
+  .scard .ph{height:184px;background-image:linear-gradient(135deg,rgba(124,77,255,.28),rgba(10,160,110,.14))}
+  .scard .b{padding:24px 24px 28px}
+  .scard h3{font-size:21px;margin-bottom:8px}
+  .scard p{font-size:14.5px;color:var(--muted);font-family:'Sora';font-weight:300}
 
   /* about */
-  .about{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-  .about-img{border-radius:24px;aspect-ratio:5/4;box-shadow:0 24px 50px rgba(20,18,31,.12);background-image:linear-gradient(135deg,rgba(109,59,255,.26),rgba(10,160,110,.16))}
-  .vent{display:grid;gap:14px;margin-top:26px}
-  .v{display:flex;gap:14px;align-items:flex-start}
-  .v .dot{flex:0 0 34px;height:34px;border-radius:10px;background:var(--tint);color:var(--p);display:grid;place-items:center;font-weight:700}
-  .v b{font-size:15.5px} .v span{color:var(--muted);font-size:14px}
+  .about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+  .about-img{border-radius:26px;aspect-ratio:5/4.2;box-shadow:0 26px 54px rgba(20,15,34,.14);background-image:linear-gradient(135deg,rgba(124,77,255,.26),rgba(10,160,110,.14))}
+  .vent{display:grid;gap:16px;margin-top:26px}
+  .v{display:flex;gap:14px;align-items:flex-start;font-family:'Sora'}
+  .v .k{flex:0 0 30px;height:30px;border-radius:9px;background:var(--tint);color:var(--p);display:grid;place-items:center;font-weight:700;font-size:14px}
+  .v b{font-size:15.5px;font-weight:600} .v span{color:var(--muted);font-size:14px;font-weight:300}
 
-  /* cta */
-  .cta{text-align:center;background:linear-gradient(135deg,var(--p),#4a1fd6);color:#fff;border-radius:28px;padding:56px 30px;margin:20px 0;box-shadow:0 30px 60px rgba(74,31,214,.3)}
-  .cta h2{color:#fff;margin-bottom:12px}
-  .cta p{color:rgba(255,255,255,.85);margin-bottom:26px}
-  .cta .btn-w{background:#fff;color:var(--p);padding:15px 30px;border-radius:100px;font-weight:700;font-size:16px;border:none;cursor:pointer;transition:transform .15s}
-  .cta .btn-w:hover{transform:translateY(-2px)}
-  .contacts{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;margin-top:24px;font-size:14px;color:rgba(255,255,255,.9)}
-  .contacts a{color:#fff;font-weight:600}
+  /* proceso */
+  .proceso{background:var(--bg2);border-radius:28px;padding:48px 40px;margin-top:8px}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:34px}
+  .step{font-family:'Sora'}
+  .step .n{width:44px;height:44px;border-radius:12px;background:#fff;border:1px solid var(--border);display:grid;place-items:center;font-weight:800;color:var(--p);font-size:18px;box-shadow:var(--shadow);margin-bottom:14px}
+  .step b{font-size:16px;font-weight:600;display:block;margin-bottom:4px}
+  .step span{color:var(--muted);font-size:13.5px;font-weight:300}
 
-  footer{border-top:1px solid var(--border);padding:26px 0 44px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  /* AGENTE IA */
+  .agente{background:linear-gradient(135deg,var(--pd),var(--p));border-radius:32px;padding:56px 48px;color:#fff;display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;box-shadow:0 34px 70px rgba(90,47,208,.34)}
+  .agente .sec-label{color:#d9ccff}
+  .agente h2{color:#fff}
+  .agente .d{color:rgba(255,255,255,.86);margin:14px 0 22px;font-family:'Sora';font-weight:300;font-size:16px}
+  .agente ul{list-style:none;display:grid;gap:12px;margin-bottom:26px}
+  .agente li{display:flex;gap:11px;align-items:flex-start;font-family:'Sora';font-size:15px}
+  .agente li .c{flex:0 0 22px;height:22px;border-radius:50%;background:rgba(255,255,255,.16);display:grid;place-items:center;font-size:12px;color:#fff;margin-top:1px}
+  .agente .btn-w{background:#fff;color:var(--p);padding:14px 26px;border-radius:100px;font-weight:700;font-family:'Sora';font-size:15px;border:none;cursor:pointer;transition:transform .15s}
+  .agente .btn-w:hover{transform:translateY(-2px)}
+  /* mock chat */
+  .mock{background:#fff;border-radius:20px;padding:16px;box-shadow:0 24px 50px rgba(20,15,34,.3)}
+  .mock .mh{display:flex;align-items:center;gap:9px;padding:4px 6px 12px;border-bottom:1px solid var(--border)}
+  .mock .mh .dot{width:9px;height:9px;border-radius:50%;background:var(--g)}
+  .mock .mh b{color:var(--ink);font-family:'Sora';font-size:14px}
+  .mock .mh small{color:var(--muted);font-family:'Sora';font-size:11px}
+  .mock .body{padding:14px 6px 4px;display:flex;flex-direction:column;gap:9px}
+  .mb{max-width:82%;padding:9px 12px;border-radius:13px;font-size:13.5px;font-family:'Sora';line-height:1.4}
+  .mb.bot{background:var(--bg2);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px}
+  .mb.me{background:var(--p);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
 
-  /* ===== CHAT WIDGET (oscuro sobre claro) ===== */
-  .fab{position:fixed;right:22px;bottom:22px;width:62px;height:62px;border-radius:50%;background:var(--p);border:none;cursor:pointer;box-shadow:0 12px 30px rgba(109,59,255,.5);display:grid;place-items:center;z-index:40;transition:transform .2s}
-  .fab:hover{transform:scale(1.06)}
-  .fab svg{width:27px;height:27px;fill:#fff}
-  .chat{position:fixed;right:22px;bottom:96px;width:372px;max-width:calc(100vw - 32px);height:544px;max-height:calc(100vh - 130px);background:#14121c;border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 24px 70px rgba(20,18,31,.4);display:flex;flex-direction:column;overflow:hidden;z-index:41;color:#f0eefb}
+  /* contacto */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .cinfo{font-family:'Sora'}
+  .cinfo .row{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);font-size:15px}
+  .cinfo .row .i{width:38px;height:38px;border-radius:10px;background:var(--tint);color:var(--p);display:grid;place-items:center;font-size:16px}
+  .cinfo .row b{font-weight:600} .cinfo .row span{color:var(--muted);font-size:13px;display:block}
+  .cbox{background:var(--bg2);border-radius:24px;padding:38px 34px;text-align:center}
+  .cbox h3{font-size:24px;margin-bottom:8px}
+  .cbox p{color:var(--muted);font-family:'Sora';font-weight:300;margin-bottom:22px}
+
+  /* footer */
+  footer{background:#0e0a1a;color:#c9c5d8;padding:44px 0 30px;margin-top:20px}
+  footer .in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  footer .fl{display:flex;align-items:center;gap:10px;font-family:'Sora';font-weight:700;color:#fff}
+  footer .fl img{height:26px}
+  footer .by{font-family:'Sora';font-size:12.5px;color:#8b86a0}
+  footer .by img{height:16px;vertical-align:middle;margin:0 3px}
+  footer nav{display:flex;gap:20px;font-family:'Sora';font-size:13.5px}
+  footer nav a{color:#c9c5d8}
+
+  /* CHAT WIDGET */
+  .fab{position:fixed;right:22px;bottom:22px;width:62px;height:62px;border-radius:50%;background:var(--p);border:none;cursor:pointer;box-shadow:0 12px 30px rgba(124,77,255,.5);display:grid;place-items:center;z-index:40;transition:transform .2s}
+  .fab:hover{transform:scale(1.06)} .fab svg{width:27px;height:27px;fill:#fff}
+  .chat{position:fixed;right:22px;bottom:96px;width:372px;max-width:calc(100vw - 32px);height:544px;max-height:calc(100vh - 130px);background:#14121c;border:1px solid rgba(255,255,255,.08);border-radius:18px;box-shadow:0 24px 70px rgba(20,15,34,.45);display:flex;flex-direction:column;overflow:hidden;z-index:41;color:#f0eefb}
   .chat[hidden]{display:none}
-  .chat .head{background:linear-gradient(120deg,#4a1fd6,var(--p));padding:16px 18px;display:flex;align-items:center;gap:10px}
+  .chat .head{background:linear-gradient(120deg,var(--pd),var(--p));padding:16px 18px;display:flex;align-items:center;gap:10px}
   .chat .head .dot{width:9px;height:9px;border-radius:50%;background:#31e39c;box-shadow:0 0 10px #31e39c}
-  .chat .head .t{font-weight:600;font-size:15px;color:#fff}
+  .chat .head .t{font-family:'Sora';font-weight:600;font-size:15px;color:#fff}
   .chat .head .t small{display:block;font-weight:300;font-size:11.5px;color:rgba(255,255,255,.78)}
   .chat .head .x{margin-left:auto;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;opacity:.85}
   .msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-  .msg{max-width:82%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45}
+  .msg{max-width:82%;padding:10px 13px;border-radius:14px;font-size:14px;line-height:1.45;font-family:'Sora'}
   .msg.bot{background:#211d2e;align-self:flex-start;border-bottom-left-radius:4px}
   .msg.me{background:var(--p);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
-  .typing{align-self:flex-start;color:#9a95ad;font-size:13px;padding:4px 6px}
+  .typing{align-self:flex-start;color:#9a95ad;font-size:13px;padding:4px 6px;font-family:'Sora'}
   .chat .foot{border-top:1px solid rgba(255,255,255,.08);padding:10px;display:flex;gap:8px}
-  .chat input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;color:#f0eefb;font-family:inherit;font-size:14px}
+  .chat input{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:11px 13px;color:#f0eefb;font-family:'Sora';font-size:14px}
   .chat input:focus{outline:none;border-color:var(--p2)}
   .chat .send{background:var(--p);border:none;color:#fff;border-radius:10px;padding:0 16px;cursor:pointer;font-weight:600}
-  .chat .send:disabled{opacity:.5;cursor:default}
+  .chat .send:disabled{opacity:.5}
 
-  @media(max-width:860px){ .hero{grid-template-columns:1fr;gap:30px} .grid3{grid-template-columns:1fr} .about{grid-template-columns:1fr;gap:26px} .hero-img{aspect-ratio:16/10} }
+  @media(max-width:900px){
+    .menu{display:none} .burger{display:block}
+    .menu.open{display:flex;position:absolute;top:58px;left:0;right:0;background:#fff;flex-direction:column;gap:0;padding:8px 24px 16px;border-bottom:1px solid var(--border);margin:0}
+    .menu.open a{padding:12px 0;border-bottom:1px solid var(--border)}
+    .nav .cta{margin-left:auto}
+    .hero{grid-template-columns:1fr;gap:30px} .about{grid-template-columns:1fr;gap:26px}
+    .grid3{grid-template-columns:1fr} .steps{grid-template-columns:1fr 1fr}
+    .agente{grid-template-columns:1fr;padding:38px 26px} .contact{grid-template-columns:1fr}
+    .proceso{padding:32px 22px}
+  }
+  @media(max-width:520px){ .steps{grid-template-columns:1fr} }
 </style>
 </head>
 <body>
+
+<!-- NAV -->
+<div class="nav"><div class="wrap in">
+  <a href="#inicio" class="logo"><img id="logo" alt="" onerror="this.style.display='none'"><span id="brand">Negocio</span></a>
+  <nav class="menu" id="menu">
+    <a href="#inicio">Inicio</a>
+    <a href="#servicios">Servicios</a>
+    <a href="#nosotros">Quiénes somos</a>
+    <a href="#agente">Agente IA</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <button class="cta" data-chat>Hablar con el asistente</button>
+  <button class="burger" id="burger">☰</button>
+</div></div>
+
 <div class="wrap">
 
-  <nav>
-    <div class="brand"><span class="d"></span><span id="brand">Negocio</span></div>
-    <button class="nav-cta" data-chat>Hablar con el asistente</button>
-  </nav>
-
-  <header class="hero">
+  <!-- HERO -->
+  <header class="hero" id="inicio">
     <div>
       <span class="eyebrow" id="eyebrow">Servicios</span>
       <h1 id="hero">Tu servicio, atendido de principio a fin</h1>
-      <p class="sub" id="herosub">Presupuesto rápido y un asistente que te atiende 24/7.</p>
+      <p class="sub" id="herosub"></p>
       <div class="btns">
         <button class="btn-p" data-chat id="herocta">Hablar con el asistente</button>
         <a class="btn-g" id="wa" target="_blank">WhatsApp</a>
       </div>
     </div>
     <div class="hero-img photo" id="heroimg">
-      <div class="hero-badge"><b class="g">● Asistente 24/7</b><br><span>Te atiende y agenda al instante</span></div>
+      <div class="hero-badge"><b>● Asistente 24/7</b><br><span>Atiende y agenda al instante</span></div>
     </div>
   </header>
 
@@ -132,58 +198,102 @@
     <span><b>Presupuesto claro</b> antes de empezar</span>
   </div>
 
-  <section class="blk">
-    <div class="sec-label">Lo que hacemos</div>
-    <h2>Nuestros servicios</h2>
-    <p class="lead-p">Todo lo que necesitas, con trato cercano y sin complicaciones.</p>
-    <div class="grid3" id="servicios"></div>
+  <!-- SERVICIOS -->
+  <section class="blk" id="servicios">
+    <div class="head-c">
+      <div class="sec-label">Lo que hacemos</div>
+      <h2>Nuestros servicios</h2>
+      <p class="lead-p">Todo lo que necesitas, con trato cercano y sin complicaciones.</p>
+    </div>
+    <div class="grid3" id="serviciosg"></div>
   </section>
 
-  <section class="blk">
+  <!-- QUIÉNES SOMOS -->
+  <section class="blk" id="nosotros">
     <div class="about">
       <div class="about-img photo" id="aboutimg"></div>
       <div>
-        <div class="sec-label">Por qué nosotros</div>
+        <div class="sec-label">Quiénes somos</div>
         <h2 id="abouttit">Cerca de ti</h2>
-        <p class="lead-p" id="abouttxt">Equipo local especializado.</p>
+        <p class="lead-p" id="abouttxt"></p>
         <div class="vent" id="ventajas"></div>
       </div>
     </div>
+    <div class="proceso">
+      <div class="sec-label">Cómo trabajamos</div>
+      <h2 style="font-size:28px">Sencillo, de principio a fin</h2>
+      <div class="steps" id="steps"></div>
+    </div>
   </section>
 
-  <section class="blk">
-    <div class="cta">
-      <h2>¿Hablamos?</h2>
-      <p>Cuéntale tu caso al asistente y te contactamos enseguida.</p>
-      <button class="btn-w" data-chat>Abrir el asistente</button>
-      <div class="contacts">
-        <span>📞 <a id="tel2">Teléfono</a></span>
-        <span>💬 <a id="wa2" target="_blank">WhatsApp</a></span>
-        <span>✉️ <a id="mail">Email</a></span>
+  <!-- AGENTE IA -->
+  <section class="blk" id="agente">
+    <div class="agente">
+      <div>
+        <div class="sec-label">Agente IA · incluido</div>
+        <h2 id="agtit">Un asistente que trabaja por ti 24/7</h2>
+        <p class="d" id="agdesc"></p>
+        <ul id="agbullets"></ul>
+        <button class="btn-w" data-chat>Probar el asistente</button>
+      </div>
+      <div class="mock">
+        <div class="mh"><span class="dot"></span><div><b id="magnombre">Asistente</b><br><small>En línea · responde al instante</small></div></div>
+        <div class="body">
+          <div class="mb bot">¡Hola! ¿En qué puedo ayudarte?</div>
+          <div class="mb me">Necesito limpiar la campana de mi bar, es urgente</div>
+          <div class="mb bot">Claro, lo vemos hoy mismo. ¿Me dices tu nombre y un teléfono y te llamamos en minutos?</div>
+          <div class="mb me">Javier, 600 12 34 56</div>
+          <div class="mb bot">¡Perfecto, Javier! Te llamamos enseguida. 🙌</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <footer>
-    <div id="foot">© Negocio</div>
-    <div>Hecho con WhiteMoon</div>
-  </footer>
+  <!-- CONTACTO -->
+  <section class="blk" id="contacto">
+    <div class="head-c">
+      <div class="sec-label">Contacto</div>
+      <h2>¿Hablamos?</h2>
+    </div>
+    <div class="contact">
+      <div class="cinfo">
+        <div class="row"><div class="i">📞</div><div><b id="tel">Teléfono</b></div></div>
+        <div class="row"><div class="i">💬</div><div><a id="wa2" target="_blank"><b>WhatsApp</b></a></div></div>
+        <div class="row"><div class="i">✉️</div><div><a id="mail"><b>Email</b></a></div></div>
+        <div class="row"><div class="i">🕑</div><div><b id="horario">Horario</b><span id="zona"></span></div></div>
+      </div>
+      <div class="cbox">
+        <h3>Te atendemos ahora</h3>
+        <p>Cuéntale tu caso al asistente y te contactamos enseguida. Sin esperas.</p>
+        <button class="btn-p" data-chat>Abrir el asistente</button>
+      </div>
+    </div>
+  </section>
 </div>
 
+<!-- FOOTER -->
+<footer><div class="wrap in">
+  <div class="fl"><img id="flogo" alt="" onerror="this.style.display='none'"><span id="fbrand">Negocio</span></div>
+  <nav>
+    <a href="#servicios">Servicios</a>
+    <a href="#nosotros">Quiénes somos</a>
+    <a href="#agente">Agente IA</a>
+    <a href="#contacto">Contacto</a>
+  </nav>
+  <div class="by" id="by"></div>
+</div></div>
+
+<!-- CHAT WIDGET -->
 <button class="fab" data-chat aria-label="Abrir chat">
   <svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.9 2 11.7c0 2.2 1 4.2 2.6 5.7L4 21l4-1.4c1.2.4 2.6.6 4 .6 5.5 0 10-3.9 10-8.5S17.5 3 12 3z"/></svg>
 </button>
 <div class="chat" id="chat" hidden>
-  <div class="head">
-    <span class="dot"></span>
+  <div class="head"><span class="dot"></span>
     <div class="t"><span id="agnombre">Asistente</span><small id="agmarca">En línea</small></div>
     <button class="x" data-close>×</button>
   </div>
   <div class="msgs" id="msgs"></div>
-  <div class="foot">
-    <input id="cinput" type="text" placeholder="Escribe tu mensaje…" autocomplete="off">
-    <button class="send" id="csend">→</button>
-  </div>
+  <div class="foot"><input id="cinput" type="text" placeholder="Escribe tu mensaje…" autocomplete="off"><button class="send" id="csend">→</button></div>
 </div>
 
 <script>
@@ -192,36 +302,43 @@
   const r = document.documentElement.style;
   if(C.COLOR_P) r.setProperty('--p',C.COLOR_P);
   if(C.COLOR_P2) r.setProperty('--p2',C.COLOR_P2);
+  if(C.COLOR_PD) r.setProperty('--pd',C.COLOR_PD);
   if(C.COLOR_G) r.setProperty('--g',C.COLOR_G);
   const esc=(s)=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const bg=(url)=> url ? `linear-gradient(135deg,rgba(109,59,255,.28),rgba(10,160,110,.16)), url('${url}')` : '';
+  const bg=(url)=> url ? `linear-gradient(135deg,rgba(124,77,255,.28),rgba(10,160,110,.14)), url('${url}')` : '';
 
-  $('brand').textContent=C.MARCA||'Negocio';
+  if(C.LOGO){ $('logo').src=C.LOGO; $('flogo').src=C.LOGO; }
+  $('brand').textContent=C.MARCA||'Negocio'; $('fbrand').textContent=C.MARCA||'Negocio';
   $('eyebrow').textContent=C.SECTOR||'Servicios';
   $('hero').textContent=C.HERO_TITULO||$('hero').textContent;
-  $('herosub').textContent=C.HERO_SUB||$('herosub').textContent;
+  $('herosub').textContent=C.HERO_SUB||'';
   $('herocta').textContent=C.HERO_CTA||'Hablar con el asistente';
-  $('wa').href='https://wa.me/'+(C.WHATSAPP||''); $('wa2').href=$('wa').href; $('wa2').textContent='WhatsApp';
-  $('tel2').href='tel:'+(C.TEL||''); $('tel2').textContent=C.TEL||'';
-  $('mail').href='mailto:'+(C.EMAIL||''); $('mail').textContent=C.EMAIL||'';
+  $('wa').href='https://wa.me/'+(C.WHATSAPP||''); $('wa2').href=$('wa').href;
+  $('tel').textContent=C.TEL||''; $('mail').href='mailto:'+(C.EMAIL||''); $('mail').innerHTML='<b>'+(C.EMAIL||'')+'</b>';
+  $('horario').textContent=C.HORARIO||'Horario'; $('zona').textContent=C.ZONA||'';
   $('abouttit').textContent=C.ABOUT_TIT||$('abouttit').textContent;
-  $('abouttxt').textContent=C.ABOUT_TXT||$('abouttxt').textContent;
-  $('foot').textContent='© '+(C.MARCA||'Negocio');
+  $('abouttxt').textContent=C.ABOUT_TXT||'';
   if(C.IMG_HERO) $('heroimg').style.backgroundImage=bg(C.IMG_HERO);
   if(C.IMG_ABOUT) $('aboutimg').style.backgroundImage=bg(C.IMG_ABOUT);
-  $('servicios').innerHTML=(C.SERVICIOS||[]).map(s=>`
-    <div class="scard"><div class="ph photo" style="background-image:${bg(s.img)}"></div>
-    <div class="b"><h3>${esc(s.t)}</h3><p>${esc(s.desc)}</p></div></div>`).join('');
-  $('ventajas').innerHTML=(C.VENTAJAS||[]).map((v,i)=>`<div class="v"><div class="dot">${i+1}</div><div><b>${esc(v.t)}</b><br><span>${esc(v.desc)}</span></div></div>`).join('');
-  $('agnombre').textContent=C.AGENTE_NOMBRE||'Asistente';
+  $('serviciosg').innerHTML=(C.SERVICIOS||[]).map(s=>`<div class="scard"><div class="ph photo" style="background-image:${bg(s.img)}"></div><div class="b"><h3>${esc(s.t)}</h3><p>${esc(s.desc)}</p></div></div>`).join('');
+  $('ventajas').innerHTML=(C.VENTAJAS||[]).map((v,i)=>`<div class="v"><div class="k">${i+1}</div><div><b>${esc(v.t)}</b><br><span>${esc(v.desc)}</span></div></div>`).join('');
+  $('steps').innerHTML=(C.PROCESO||[]).map((p,i)=>`<div class="step"><div class="n">${i+1}</div><b>${esc(p.t)}</b><span>${esc(p.desc)}</span></div>`).join('');
+  $('agtit').textContent=C.AGENTE_TIT||$('agtit').textContent;
+  $('agdesc').textContent=C.AGENTE_DESC||'';
+  $('agbullets').innerHTML=(C.AGENTE_BULLETS||[]).map(b=>`<li><span class="c">✓</span><span>${esc(b)}</span></li>`).join('');
+  $('agnombre').textContent=C.AGENTE_NOMBRE||'Asistente'; $('magnombre').textContent=(C.AGENTE_NOMBRE||'Asistente');
   $('agmarca').textContent=C.MARCA||'En línea';
+  $('by').innerHTML = (C.MARCA_WHITEMOON!==false) ? `Hecho con <img src="https://whitemoon.es/assets/images/icono-44.webp" onerror="this.style.display='none'"> <b style="color:#fff">WhiteMoon</b>` : `© ${esc(C.MARCA||'')}`;
+
+  // burger
+  $('burger').addEventListener('click',()=>$('menu').classList.toggle('open'));
+  document.querySelectorAll('.menu a').forEach(a=>a.addEventListener('click',()=>$('menu').classList.remove('open')));
 
   // chat
   const convo=[]; let sending=false, greeted=false;
   const openChat=()=>{ $('chat').hidden=false; if(!greeted){ bubble(C.AGENTE_SALUDO||'¡Hola! ¿En qué puedo ayudarte?','bot'); greeted=true; } $('cinput').focus(); };
-  const closeChat=()=>{ $('chat').hidden=true; };
   document.querySelectorAll('[data-chat]').forEach(b=>b.addEventListener('click',openChat));
-  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',closeChat));
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>$('chat').hidden=true));
   function bubble(t,cls){ const d=document.createElement('div'); d.className='msg '+cls; d.textContent=t; $('msgs').appendChild(d); $('msgs').scrollTop=$('msgs').scrollHeight; }
   async function send(){
     const val=$('cinput').value.trim(); if(!val||sending) return;
@@ -229,9 +346,7 @@
     sending=true; $('csend').disabled=true;
     const typ=document.createElement('div'); typ.className='typing'; typ.textContent='escribiendo…'; $('msgs').appendChild(typ); $('msgs').scrollTop=$('msgs').scrollHeight;
     try{
-      const res=await fetch(`${C.SUPABASE_URL}/functions/v1/${C.CHAT_FN}`,{method:'POST',
-        headers:{'Content-Type':'application/json','Authorization':'Bearer '+C.SUPABASE_ANON_KEY,'apikey':C.SUPABASE_ANON_KEY},
-        body:JSON.stringify({cliente_id:C.CLIENTE_ID, messages:convo})});
+      const res=await fetch(`${C.SUPABASE_URL}/functions/v1/${C.CHAT_FN}`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+C.SUPABASE_ANON_KEY,'apikey':C.SUPABASE_ANON_KEY},body:JSON.stringify({cliente_id:C.CLIENTE_ID,messages:convo})});
       const data=await res.json(); typ.remove();
       const reply=(data&&data.reply)?data.reply:'Perdona, no te he entendido. ¿Puedes repetirlo?';
       bubble(reply,'bot'); convo.push({role:'assistant',content:reply});
